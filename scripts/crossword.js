@@ -1,9 +1,11 @@
-var grid, ctx;
+var grid;
 
 $(function() {
   var canvas = $("canvas")[0];
-  ctx = canvas.getContext('2d');
-  ctx.font = '18px sans-serif';
+  var ctx = canvas.getContext('2d');
+  ctx.font = '18px Noto Sans Myanmar';
+
+  var previousWords = [];
 
   var downFirst = true;
   if (Math.random() > 0.5) {
@@ -50,6 +52,39 @@ $(function() {
       throw 'too long';
     }
 
+    if (previousWords.length) {
+      // some words already exist
+      // try to fit words together so it doesn't look dumb
+      for (var w = 0; w < previousWords.length; w++) {
+        for (var l = word.length - 1; l >= 0; l--) {
+          if (previousWords[w][3].indexOf(word[l]) > -1) {
+            // maybe a connection?
+            var x = previousWords[w][0] * 1;
+            var y = previousWords[w][1] * 1;
+            var madeFit;
+            if (previousWords[w][2] === 'across') {
+              // then I should try to go down through it
+              x += 1 * previousWords[w][3].indexOf(word[l]);
+              y -= l;
+              if (y > 0) {
+                madeFit = startDownIn(y, x);
+              }
+            } else {
+              // then I should try to go across through it
+              x -= l;
+              y += 1 * previousWords[w][3].indexOf(word[l]);
+              if (x > 0) {
+                madeFit = startAcrossIn(y, x);
+              }
+            }
+            if (madeFit) {
+              return;
+            }
+          }
+        }
+      }
+    }
+
     if (downFirst) {
       if (!fitDown(word)) {
         if (!fitAcross(word)) {
@@ -85,17 +120,6 @@ $(function() {
   }
 
   function loop(startIn) {
-    /*
-    for (var r = 0; r < 50; r++) {
-      var row = Math.floor(Math.random() * 7);
-      var col = Math.floor(Math.random() * 7);
-      var madeFit = startIn(row + 5, col + 5);
-      if (madeFit) {
-        return true;
-      }
-    }
-    */
-
     for (var col = 3; col < 12; col++) {
       for (var row = 3; row < 12; row++) {
         var madeFit = startIn(row, col);
@@ -124,112 +148,113 @@ $(function() {
     return false;
   }
 
-  function fitDown(word) {
-    function startIn(row, col) {
-      if (row * 1 + word.length > 15) {
-        // word is too long
-        return false;
-      }
-      if (grid[col][row] && grid[col][row].label) {
-        // another starts here
-        return false;
-      }
-      if (row > 0 && grid[col][row - 1]) {
-        // letter above beginning
-        return false;
-      }
-      if (row * 1 + word.length < 15 && grid[col][row * 1 + word.length]) {
-        // letter after end
-        return false;
-      }
-
-      var x = col;
-      for (var char = 0; char < word.length; char++) {
-        var y = row * 1 + char * 1;
-        var letter = word[char];
-        if (grid[x][y] && grid[x][y].letter !== letter) {
-          return false;
-        }
-        if ((x > 0 && grid[x - 1][y] && grid[x - 1][y].end) || (x < 14 && grid[x * 1 + 1][y] && grid[x * 1 + 1][y].label)) {
-          // letter left or right of box, which is start / end
-          return false;
-        }
-      }
-
-      // confirmed
-      var clueNum = myanmarNumbers($("#clues li").length + 1, 'my');
-      var clue = makeClue(clueNum, word.join(''));
-      $("#down .list").append(clue);
-
-      for (var char = 0; char < word.length; char++) {
-        var y = row * 1 + char * 1;
-        var letter = word[char];
-        if (!grid[x][y]) {
-          grid[x][y] = { letter: letter };
-          drawGrid(x, y);
-        }
-      }
-      grid[col][row].label = clueNum;
-      drawGrid(col, row);
-      grid[col][row + word.length - 1].end = true;
-      return true;
+  function startDownIn(row, col) {
+    if (row * 1 + word.length > 15) {
+      // word is too long
+      return false;
+    }
+    if (grid[col][row] && grid[col][row].label) {
+      // another starts here
+      return false;
+    }
+    if (row > 0 && grid[col][row - 1]) {
+      // letter above beginning
+      return false;
+    }
+    if (row * 1 + word.length < 15 && grid[col][row * 1 + word.length]) {
+      // letter after end
+      return false;
     }
 
-    return loop(startIn);
+    var x = col;
+    for (var char = 0; char < word.length; char++) {
+      var y = row * 1 + char * 1;
+      var letter = word[char];
+      if (grid[x][y] && grid[x][y].letter !== letter) {
+        return false;
+      }
+      if ((x > 0 && grid[x - 1][y] && grid[x - 1][y].end) || (x < 14 && grid[x * 1 + 1][y] && grid[x * 1 + 1][y].label)) {
+        // letter left or right of box, which is start / end
+        return false;
+      }
+    }
+
+    // confirmed
+    var clueNum = myanmarNumbers($("#clues li").length + 1, 'my');
+    var clue = makeClue(clueNum, word.join(''));
+    $("#down .list").append(clue);
+
+    for (var char = 0; char < word.length; char++) {
+      var y = row * 1 + char * 1;
+      var letter = word[char];
+      if (!grid[x][y]) {
+        grid[x][y] = { letter: letter };
+        drawGrid(x, y);
+      }
+    }
+    grid[col][row].label = clueNum;
+    drawGrid(col, row);
+    grid[col][row * 1 + word.length - 1].end = true;
+    previousWords.push([col, row, 'down', word]);
+    return true;
+  }
+
+  function startAcrossIn(row, col) {
+    if (col * 1 + word.length > 15) {
+      // word is too long
+      return false;
+    }
+    if (grid[col][row] && grid[col][row].label) {
+      // another starts here
+      return false;
+    }
+    if (col > 0 && grid[col - 1][row]) {
+      // letter left of beginning
+      return false;
+    }
+    if (col * 1 + word.length < 15 && grid[col * 1 + word.length][row]) {
+      // letter right of ends
+      return false;
+    }
+
+    var y = row;
+    for (var char = 0; char < word.length; char++) {
+      var x = col * 1 + char * 1;
+      var letter = word[char];
+      if (grid[x][y] && (grid[x][y].letter !== letter)) {
+        return false;
+      }
+      if ((y > 0 && grid[x][y - 1] && grid[x][y - 1].end) || (y < 14 && grid[x][y * 1 + 1] && grid[x][y * 1 + 1].label)) {
+        // letter above or below beginning, which is start / end
+        return false;
+      }
+    }
+
+    // confirmed
+    var clueNum = myanmarNumbers($("#clues li").length + 1, 'my');
+    var clue = makeClue(clueNum, word.join(''));
+    $("#across .list").append(clue);
+
+    for (var char = 0; char < word.length; char++) {
+      var x = col * 1 + char * 1;
+      var letter = word[char];
+      if (!grid[x][y]) {
+        grid[x][y] = { letter: letter };
+        drawGrid(x, y);
+      }
+    }
+    grid[col][row].label = clueNum;
+    drawGrid(col, row);
+    grid[col * 1 + word.length - 1][row].end = true;
+    previousWords.push([col, row, 'across', word]);
+    return true;
+  }
+
+  function fitDown(word) {
+    return loop(startDownIn);
   }
 
   function fitAcross(word) {
-    function startIn(row, col) {
-      if (col * 1 + word.length > 15) {
-        // word is too long
-        return false;
-      }
-      if (grid[col][row] && grid[col][row].label) {
-        // another starts here
-        return false;
-      }
-      if (col > 0 && grid[col - 1][row]) {
-        // letter left of beginning
-        return false;
-      }
-      if (col * 1 + word.length < 15 && grid[col * 1 + word.length][row]) {
-        // letter right of ends
-        return false;
-      }
-
-      var y = row;
-      for (var char = 0; char < word.length; char++) {
-        var x = col * 1 + char * 1;
-        var letter = word[char];
-        if (grid[x][y] && (grid[x][y].letter !== letter)) {
-          return false;
-        }
-        if ((y > 0 && grid[x][y - 1] && grid[x][y - 1].end) || (y < 14 && grid[x][y * 1 + 1] && grid[x][y * 1 + 1].label)) {
-          // letter above or below beginning, which is start / end
-          return false;
-        }
-      }
-
-      // confirmed
-      var clueNum = myanmarNumbers($("#clues li").length + 1, 'my');
-      var clue = makeClue(clueNum, word.join(''));
-      $("#across .list").append(clue);
-
-      for (var char = 0; char < word.length; char++) {
-        var x = col * 1 + char * 1;
-        var letter = word[char];
-        if (!grid[x][y]) {
-          grid[x][y] = { letter: letter };
-          drawGrid(x, y);
-        }
-      }
-      grid[col][row].label = clueNum;
-      drawGrid(col, row);
-      grid[col + word.length - 1][row].end = true;
-
-      return true;
-    }
-
-    return loop(startIn);
+    return loop(startAcrossIn);
   }
 });
