@@ -43,3 +43,28 @@ canvas {
 li strong {
   margin-right: 10px;
 }
+
+input {
+  line-height: 150%;
+  margin-bottom: 10pt;
+}
+
+#add-clue label {
+  margin-right: 10px;
+}
+
+small {
+  background: #000;
+  color: #000;
+  margin-left: 10px;
+}
+
+small:hover, small:active {
+  color: #fff;
+}
+
+@media print {
+  small, #add-clue, .no-print {
+    display: none;
+  }
+}

@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'NotoSansDevanagari';
+  src: url(NotoSansDevanagari/NotoSansDevanagari-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Preeti';
+  src: url(Preeti/Preeti_0.ttf);
+}
+
+html, body, span, strong {
+  font-family: 'NotoSansDevanagari', sans-serif;
+}
+
+.preeti {
+  font-family: 'Preeti';
+}
