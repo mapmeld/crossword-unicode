@@ -1,0 +1,6 @@
+- include Zawgyi font, test adding words using a JS converter
+- don't allow surrounding letters of any type, not just start/end (unless repeating a square)
+- call for help translating
+- save puzzles in encoded URL?
+- allow user input on saved puzzles?
+- include Tamil, Nepali, etc

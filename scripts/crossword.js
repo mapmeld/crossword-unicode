@@ -1,5 +1,9 @@
 var grid;
 
+var width = 20;
+var height = 15;
+$("canvas").attr("width", 40 * width).attr("height", 40 * height);
+
 $(function() {
   var canvas = $("canvas")[0];
   var ctx = canvas.getContext('2d');
@@ -15,13 +19,13 @@ $(function() {
 
   function clearCanvas(andPuzzle) {
     ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, 600, 600);
+    ctx.fillRect(0, 0, 40 * width, 40 * height);
 
     if (andPuzzle) {
       grid = [];
-      for (var x = 0; x < 15; x++) {
+      for (var x = 0; x < width; x++) {
         grid.push([]);
-        for (var y = 0; y < 15; y++) {
+        for (var y = 0; y < height; y++) {
           grid[grid.length-1].push(null);
         }
       }
@@ -31,8 +35,20 @@ $(function() {
   var accents_and_vowels = "[:\u0300-\u036F\u0902\u093E-\u0944\u0947\u0948\u094B\u094C\u0962\u0963\u0981\u09BC\u09BE-\u09C4\u09C7\u09C8\u09CB\u09CC\u09D7\u09E2\u09E3\u0BBE-\u0BC2\u0BC6-\u0BC8\u0BCA-\u0BCD\u0BD7\u102B-\u1032\u1036-\u1038\u103A-\u103E\u1056-\u1059\u1AB0-\u1AFF\u1DC0-\u1DFF\u20D0-\u20FF\uFE20-\uFE2F]";
   var combo_characters = "[\u094D\u09CD\u1039]";
 
+  $("#unicode, #zawgyi").change(function() {
+    if ($("#zawgyi").prop("checked")) {
+      $("input").css({
+        'font-family': "'Zawgyi One', sans-serif"
+      });
+    } else {
+      $("input").css({
+        'font-family': "'Noto Sans Myanmar', sans-serif"
+      });
+    }
+  });
+
   $("#add-clue button").click(function() {
-    var inp = $("#add-clue input").val().split(/\s/)[0];
+    var inp = $("#word").val().split(/\s/)[0];
     if (!inp.length) {
       return;
     }
@@ -48,7 +64,7 @@ $(function() {
 
     $("#add-clue input").val("");
 
-    if (word.length > 15) {
+    if (word.length > Math.max(width, height)) {
       throw 'too long';
     }
 
@@ -120,15 +136,16 @@ $(function() {
   }
 
   function loop(startIn) {
-    for (var col = 3; col < 12; col++) {
-      for (var row = 3; row < 12; row++) {
+    var endcols = [width - 3, width - 2, width - 1];
+    for (var col = 3; col < width - 3; col++) {
+      for (var row = 3; row < height - 3; row++) {
         var madeFit = startIn(row, col);
         if (madeFit) {
           return true;
         }
       }
       // still here
-      for (var col2 in [0, 1, 3, 12, 13, 14]) {
+      for (var col2 in [0, 1, 2].concat(endcols)) {
         var madeFit = startIn(row, col2);
         if (madeFit) {
           return true;
@@ -137,8 +154,8 @@ $(function() {
     }
 
     // still here
-    for (var col in [0, 1, 2, 12, 13, 14]) {
-      for (var row = 0; row < 15; row++) {
+    for (var col in [0, 1, 2].concat(endcols)) {
+      for (var row = 0; row < height; row++) {
         var madeFit = startIn(row, col);
         if (madeFit) {
           return true;
@@ -149,7 +166,7 @@ $(function() {
   }
 
   function startDownIn(row, col) {
-    if (row * 1 + word.length > 15) {
+    if (row * 1 + word.length > height) {
       // word is too long
       return false;
     }
@@ -161,7 +178,7 @@ $(function() {
       // letter above beginning
       return false;
     }
-    if (row * 1 + word.length < 15 && grid[col][row * 1 + word.length]) {
+    if (row * 1 + word.length < width && grid[col][row * 1 + word.length]) {
       // letter after end
       return false;
     }
@@ -173,7 +190,7 @@ $(function() {
       if (grid[x][y] && grid[x][y].letter !== letter) {
         return false;
       }
-      if ((x > 0 && grid[x - 1][y] && grid[x - 1][y].end) || (x < 14 && grid[x * 1 + 1][y] && grid[x * 1 + 1][y].label)) {
+      if ((x > 0 && grid[x - 1][y] && grid[x - 1][y].end) || (x < (width - 1) && grid[x * 1 + 1][y] && grid[x * 1 + 1][y].label)) {
         // letter left or right of box, which is start / end
         return false;
       }
@@ -200,7 +217,7 @@ $(function() {
   }
 
   function startAcrossIn(row, col) {
-    if (col * 1 + word.length > 15) {
+    if (col * 1 + word.length > width) {
       // word is too long
       return false;
     }
@@ -212,7 +229,7 @@ $(function() {
       // letter left of beginning
       return false;
     }
-    if (col * 1 + word.length < 15 && grid[col * 1 + word.length][row]) {
+    if (col * 1 + word.length < width && grid[col * 1 + word.length][row]) {
       // letter right of ends
       return false;
     }
@@ -224,7 +241,7 @@ $(function() {
       if (grid[x][y] && (grid[x][y].letter !== letter)) {
         return false;
       }
-      if ((y > 0 && grid[x][y - 1] && grid[x][y - 1].end) || (y < 14 && grid[x][y * 1 + 1] && grid[x][y * 1 + 1].label)) {
+      if ((y > 0 && grid[x][y - 1] && grid[x][y - 1].end) || (y < (height - 1) && grid[x][y * 1 + 1] && grid[x][y * 1 + 1].label)) {
         // letter above or below beginning, which is start / end
         return false;
       }
