@@ -1,0 +1,10 @@
+{
+  "name": "burmese-crossword",
+  "version": "1.0.0",
+  "description": "Generate Burmese / Myanmar-language crossword puzzles",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Nick Doiron <ndoiron@mapmeld.com>",
+  "license": "MIT"
+}

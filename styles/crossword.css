@@ -1,0 +1,41 @@
+html, body {
+  font-family: sans-serif;
+}
+
+canvas {
+  border: 1px solid #444;
+}
+
+#add-clue {
+  background: #ccc;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+#add-clue input {
+  font-size: 16pt;
+}
+
+#add-clue button {
+  background: #448;
+  font-size: 14pt;
+  color: #fff;
+  padding: 8px;
+  cursor: button;
+}
+
+.clearfix {
+  clear: both;
+}
+
+#across, #down {
+  width: 300px;
+  float: left;
+}
+
+#clues li {
+  list-style-type: none;
+  -webkit-padding-start: 0;
+  -moz-padding-start: 0;
+  padding-start: 0;
+}
