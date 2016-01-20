@@ -10,6 +10,7 @@ $(function() {
   ctx.font = "18px NotoSansMyanmar";
 
   var word, question;
+  var anchor = 1;
   var previousWords = [];
 
   var downFirst = true;
@@ -176,13 +177,14 @@ $(function() {
   }
 
   function startDownIn(row, col) {
+    var forceLabel = null;
     if (row * 1 + word.length > height) {
       // word is too long
       return false;
     }
     if (grid[col][row] && grid[col][row].label) {
       // another starts here
-      return false;
+      forceLabel = grid[col][row].label;
     }
     if (row > 0 && grid[col][row - 1]) {
       // letter above beginning
@@ -207,7 +209,8 @@ $(function() {
     }
 
     // confirmed
-    var clueNum = myanmarNumbers($("#clues li").length + 1, 'my');
+    var clueNum = forceLabel || (anchor++);
+    clueNum = myanmarNumbers(clueNum, 'my');
     var clue = makeClue(clueNum, word.join(''));
     $("#down .list").append(clue);
 
@@ -227,13 +230,14 @@ $(function() {
   }
 
   function startAcrossIn(row, col) {
+    var forceLabel = null;
     if (col * 1 + word.length > width) {
       // word is too long
       return false;
     }
     if (grid[col][row] && grid[col][row].label) {
       // another starts here
-      return false;
+      forceLabel = grid[col][row].label;
     }
     if (col > 0 && grid[col - 1][row]) {
       // letter left of beginning
@@ -258,7 +262,8 @@ $(function() {
     }
 
     // confirmed
-    var clueNum = myanmarNumbers($("#clues li").length + 1, 'my');
+    var clueNum = forceLabel || (anchor++);
+    clueNum = myanmarNumbers(clueNum, 'my');
     var clue = makeClue(clueNum, word.join(''));
     $("#across .list").append(clue);
 
