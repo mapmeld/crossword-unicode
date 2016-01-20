@@ -3,6 +3,19 @@
   src: url(NotoSansMyanmar/NotoSansMyanmar-Regular.ttf);
 }
 
+@font-face {
+  font-family: 'Zawgyi One';
+  src: url(ZawgyiOne/ZawgyiOne2008.ttf);
+}
+
 html, body, span, strong {
   font-family: 'NotoSansMyanmar', sans-serif;
+}
+
+.zawgyi {
+  font-family: 'Zawgyi One';
+}
+
+#add-clue label {
+  margin-right: 10px;
 }

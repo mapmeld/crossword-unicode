@@ -7,7 +7,7 @@ $("canvas").attr("width", 40 * width).attr("height", 40 * height);
 $(function() {
   var canvas = $("canvas")[0];
   var ctx = canvas.getContext('2d');
-  ctx.font = '18px Noto Sans Myanmar';
+  ctx.font = "18px NotoSansMyanmar";
 
   var previousWords = [];
 
@@ -37,20 +37,23 @@ $(function() {
 
   $("#unicode, #zawgyi").change(function() {
     if ($("#zawgyi").prop("checked")) {
-      $("input").css({
-        'font-family': "'Zawgyi One', sans-serif"
-      });
+      $("input").addClass("zawgyi")
     } else {
-      $("input").css({
-        'font-family': "'Noto Sans Myanmar', sans-serif"
-      });
+      $("input").removeClass("zawgyi");
     }
   });
+  if (window.location.href.toLowerCase().indexOf("zawgyi") > -1) {
+    $("#zawgyi").prop("checked", true);
+    $("input").addClass("zawgyi");
+  }
 
   $("#add-clue button").click(function() {
     var inp = $("#word").val().split(/\s/)[0];
     if (!inp.length) {
       return;
+    }
+    if ($("#zawgyi").prop("checked")) {
+      inp = zg2uni(inp);
     }
 
     word = [];
