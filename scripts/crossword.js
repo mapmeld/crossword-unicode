@@ -51,13 +51,14 @@ $(function() {
 
   $("#add-clue button").click(function() {
     var inp = $("#word").val().split(/\s/)[0];
-    question =  $("#question").val();
+    question = $("#question").val();
 
     if (!inp.length) {
       return;
     }
     if ($("#zawgyi").prop("checked")) {
       inp = zg2uni(inp);
+      question = zg2uni(question);
     }
     if (inp.length == 1) {
       return;
