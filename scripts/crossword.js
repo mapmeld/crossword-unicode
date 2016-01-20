@@ -200,8 +200,8 @@ $(function() {
       if (grid[x][y] && grid[x][y].letter !== letter) {
         return false;
       }
-      if ((x > 0 && grid[x - 1][y] && grid[x - 1][y].end) || (x < (width - 1) && grid[x * 1 + 1][y] && grid[x * 1 + 1][y].label)) {
-        // letter left or right of box, which is start / end
+      if (!grid[x][y] && ((x > 0 && grid[x - 1][y]) || (x < width - 1 && grid[x * 1 + 1][y]))) {
+        // setting a new letter... is a letter left or right of box, which is start / end
         return false;
       }
     }
@@ -251,8 +251,8 @@ $(function() {
       if (grid[x][y] && (grid[x][y].letter !== letter)) {
         return false;
       }
-      if ((y > 0 && grid[x][y - 1] && grid[x][y - 1].end) || (y < (height - 1) && grid[x][y * 1 + 1] && grid[x][y * 1 + 1].label)) {
-        // letter above or below beginning, which is start / end
+      if (!grid[x][y] && ((y > 0 && grid[x][y - 1]) || (y < height - 1 && grid[x][y * 1 + 1]))) {
+        // setting a new letter... check for letter above or below beginning, which is start / end
         return false;
       }
     }
