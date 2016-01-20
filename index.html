@@ -9,7 +9,16 @@
   <body>
     <h3>Burmese Crossword</h3>
     <div id="add-clue">
-      <p>Currently only use Unicode / Myanmar3 font.</p>
+      <p>
+        <label>
+          <input id="unicode" type="radio" name="font" value="unicode" checked/>
+          Unicode
+        </label>
+        <label>
+          <input id="zawgyi" type="radio" name="font" value="zawgyi"/>
+          Zawgyi
+        </label>
+      </p>
       <input id="word" type="text"/>
       <button>Add Word</button>
     </div>
