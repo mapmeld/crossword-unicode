@@ -12,10 +12,31 @@ html, body, span, strong {
   font-family: 'NotoSansMyanmar', sans-serif;
 }
 
+input {
+  line-height: 150%;
+  margin-bottom: 10pt;
+}
+
 .zawgyi {
   font-family: 'Zawgyi One';
 }
 
 #add-clue label {
   margin-right: 10px;
+}
+
+small {
+  background: #000;
+  color: #000;
+  margin-left: 10px;
+}
+
+small:hover, small:active {
+  color: #fff;
+}
+
+@media print {
+  small, #add-clue, .no-print {
+    display: none;
+  }
 }

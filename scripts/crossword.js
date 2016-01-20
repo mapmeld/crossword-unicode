@@ -9,6 +9,7 @@ $(function() {
   var ctx = canvas.getContext('2d');
   ctx.font = "18px NotoSansMyanmar";
 
+  var word, question;
   var previousWords = [];
 
   var downFirst = true;
@@ -49,11 +50,16 @@ $(function() {
 
   $("#add-clue button").click(function() {
     var inp = $("#word").val().split(/\s/)[0];
+    question =  $("#question").val();
+
     if (!inp.length) {
       return;
     }
     if ($("#zawgyi").prop("checked")) {
       inp = zg2uni(inp);
+    }
+    if (inp.length == 1) {
+      return;
     }
 
     word = [];
@@ -134,7 +140,8 @@ $(function() {
   function makeClue(clueNum, word) {
     var clue = $("<li>");
     clue.append($("<strong>").text(clueNum));
-    clue.append(word);
+    clue.append(question || word);
+    clue.append($("<small>").text(word));
     return clue;
   }
 

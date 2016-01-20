@@ -8,8 +8,10 @@
   </head>
   <body>
     <h3>Burmese Crossword</h3>
+    <p class="no-print">When you print this page, it will show only the questions and puzzle.</p>
     <div id="add-clue">
       <p>
+        <strong>Input</strong>
         <label>
           <input id="unicode" type="radio" name="font" value="unicode" checked/>
           Unicode
@@ -19,8 +21,12 @@
           Zawgyi
         </label>
       </p>
-      <input id="word" type="text"/>
-      <button>Add Word</button>
+      <p>
+        <input id="question" type="text" placeholder="Clue" size="40"/>
+        <br/>
+        <input id="word" type="text" placeholder="Answer"/>
+        <button>Add Word</button>
+      </p>
     </div>
     <div id="clues">
       <div id="across">
