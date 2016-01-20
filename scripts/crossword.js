@@ -26,12 +26,24 @@ $(function() {
     }
   }
 
+  var accents_and_vowels = "[:\u0300-\u036F\u0902\u093E-\u0944\u0947\u0948\u094B\u094C\u0962\u0963\u0981\u09BC\u09BE-\u09C4\u09C7\u09C8\u09CB\u09CC\u09D7\u09E2\u09E3\u0BBE-\u0BC2\u0BC6-\u0BC8\u0BCA-\u0BCD\u0BD7\u102B-\u1032\u1036-\u1038\u103A-\u103E\u1056-\u1059\u1AB0-\u1AFF\u1DC0-\u1DFF\u20D0-\u20FF\uFE20-\uFE2F]";
+  var combo_characters = "[\u094D\u09CD\u1039]";
+
   $("#add-clue button").click(function() {
-    var word = $("#add-clue input").val().split(/\s/)[0];
-    if (!word.length) {
+    var inp = $("#add-clue input").val().split(/\s/)[0];
+    if (!inp.length) {
       return;
     }
-    word = word.split("");
+
+    word = [];
+    while (inp.length) {
+      var startChar = inp[0];
+      var fullLetter = startChar + "(?:" + accents_and_vowels + "+)?" + "(" + combo_characters + "\\W(" + accents_and_vowels + ")?)?";
+      var nextSquare = (new RegExp(fullLetter)).exec(inp).join('');
+      word.push(nextSquare);
+      inp = inp.substring(nextSquare.length);
+    }
+
     $("#add-clue input").val("");
 
     if (word.length > 15) {

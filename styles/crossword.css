@@ -39,3 +39,7 @@ canvas {
   -moz-padding-start: 0;
   padding-start: 0;
 }
+
+li strong {
+  margin-right: 10px;
+}
