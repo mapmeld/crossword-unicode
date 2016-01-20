@@ -2,7 +2,7 @@
 
 Make crossword puzzles in Burmese / Myanmar language. Unicode and Zawgyi input OK.
 
-<img src="http://i.imgur.com/h225JeE.png" width="650"/>
+<img src="http://i.imgur.com/LCKxGpu.png" width="650"/>
 
 ## Also in Nepali
 
