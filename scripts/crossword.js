@@ -68,10 +68,11 @@ $(function() {
     while (inp.length) {
       var startChar = inp[0];
       var fullLetter = startChar + "(?:" + accents_and_vowels + "+)?" + "(" + combo_characters + "\\W(" + accents_and_vowels + ")?)?";
-      var nextSquare = (new RegExp(fullLetter)).exec(inp).join('');
+      var nextSquare = (new RegExp(fullLetter)).exec(inp)[0];
       word.push(nextSquare);
       inp = inp.substring(nextSquare.length);
     }
+    console.log(word);
 
     $("#add-clue input").val("");
 
