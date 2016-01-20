@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'NotoSansMyanmar';
+  src: url(NotoSansMyanmar/NotoSansMyanmar-Regular.ttf);
+}
+
+html, body, span, strong {
+  font-family: 'NotoSansMyanmar', sans-serif;
+}
