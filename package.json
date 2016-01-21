@@ -1,6 +1,6 @@
 {
   "name": "crossword",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate multilingual crossword puzzles",
   "bin": {
     "crosswordjs": "cli.js"
@@ -12,5 +12,17 @@
     "canvas": "^1.3.7",
     "commander": "^2.9.0",
     "myanmar-numbers": "^1.1.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mapmeld/crossword-unicode.git"
+  },
+  "keywords": [
+    "crossword",
+    "unicode"
+  ],
+  "bugs": {
+    "url": "https://github.com/mapmeld/crossword-unicode/issues"
+  },
+  "homepage": "https://github.com/mapmeld/crossword-unicode#readme"
 }
