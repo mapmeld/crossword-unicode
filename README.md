@@ -1,12 +1,15 @@
 # Burmese Crossword
 
-Make crossword puzzles in Burmese / Myanmar language. Unicode and Zawgyi input OK.
+Make crossword puzzles in multiple languages and scripts.
+
+<strong><a href="http://mapmeld.github.io/crossword-unicode/">Burmese/Myanmar Version</a></strong> supporting Unicode and
+Zawgyi fonts.
 
 <img src="http://i.imgur.com/LCKxGpu.png" width="650"/>
 
 ## Also in Nepali and Tamil
 
-<strong><a href="http://mapmeld.github.io/crossword-unicode/nepali.html">Nepali Version</a></strong>
+<strong><a href="http://mapmeld.github.io/crossword-unicode/nepali.html">Nepali Version</a></strong> including Preeti font
 
 <strong><a href="http://mapmeld.github.io/crossword-unicode/tamil.html">Tamil Version</a></strong>
 
