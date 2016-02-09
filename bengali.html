@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Bengali Crossword</title>
+    <link rel="stylesheet" type="text/css" href="styles/bengali.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/crossword.css"/>
+  </head>
+  <body>
+    <h3>Bengali Crossword</h3>
+    <p class="no-print">When you print this page, it will show only the questions and puzzle.</p>
+    <div id="add-clue">
+      <p>
+        <input id="question" type="text" placeholder="Clue" size="40"/>
+        <br/>
+        <input id="word" type="text" placeholder="Answer"/>
+        <button>Add Word</button>
+      </p>
+    </div>
+    <div id="clues">
+      <div id="across">
+        <h4>Across</h4>
+        <div class="list">
+        </div>
+      </div>
+      <div id="down">
+        <h4>Down</h4>
+        <div class="list">
+        </div>
+      </div>
+    </div>
+    <div class="clearfix">
+    </div>
+    <canvas id="puzzle" width="600" height="600">
+    </canvas>
+    <script type="text/javascript" src="scripts/lib/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="languages/bengali.js"></script>
+    <script type="text/javascript" src="crossword-common.js"></script>
+    <script type="text/javascript" src="scripts/crossword-browser.js"></script>
+  </body>
+</html>
