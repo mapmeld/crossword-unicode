@@ -39,9 +39,18 @@ game.setNumberTransform(function (n) {
 
 ### Node module
 
-Use <a href="https://github.com/Automattic/node-canvas/">node-canvas</a>.
+Using the crossword module requires <a href="https://github.com/Automattic/node-canvas/">node-canvas</a>.
 
-<a href="https://github.com/Automattic/node-canvas/wiki/Installation-on-Heroku">Guide to using node-canvas on Heroku.</a>
+Installation pre-requisites:
+
+- <a href="https://github.com/Automattic/node-canvas/wiki/Installation---Amazon-Linux-AMI-(EC2)">Amazon Linux EC2</a>
+- <a href="https://github.com/Automattic/node-canvas/wiki/Installation---Fedora">Fedora</a>
+- <a href="https://github.com/Automattic/node-canvas/wiki/Installation---OSX">OSX</a>
+- <a href="https://github.com/Automattic/node-canvas/wiki/Installation---Solaris,-Illumos,-SmartOS">Solaris / Illumos / SmartOS</a>
+- <a href="https://github.com/Automattic/node-canvas/wiki/Installation---Ubuntu-and-other-Debian-based-systems">Ubuntu / Debian</a>
+- <a href="https://github.com/Automattic/node-canvas/wiki/Installation---Windows">Windows</a>
+- <a href="https://github.com/Automattic/node-canvas/wiki/Installation-on-Heroku">Heroku</a>
+- <a href="https://github.com/Automattic/node-canvas/wiki/Installation%E2%80%94centos-7">Centos</a>
 
 ```bash
 npm install canvas crossword --save
