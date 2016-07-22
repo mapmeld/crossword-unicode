@@ -1,4 +1,4 @@
-# Burmese Crossword
+# Crossword
 
 Make crossword puzzles in multiple languages and scripts.
 
@@ -80,7 +80,7 @@ Prerequisites: NodeJS and fonts which support your language (preferably Noto San
   and Noto Sans Tamil, included in the styles directory of this project)
 
 ```bash
-npm install crossword-unicode -g
+npm install crossword -g
 crosswordjs wordlist.txt output.png
 
 # more custom setup
