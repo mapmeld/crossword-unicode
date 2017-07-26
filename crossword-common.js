@@ -206,10 +206,11 @@ Crossword.prototype.startAcrossIn = function(originWord, row, col) {
   var clueNum = forceLabel || (this.anchor++);
   if (this.direction === 'rtl') {
     this.grid[col * 1 + word.length - 1][row].label = clueNum;
+    this.drawGrid(col * 1 + word.length - 1, row);
   } else {
     this.grid[col][row].label = clueNum;
+    this.drawGrid(col, row);
   }
-  this.drawGrid(col, row);
 
   this.previousWords.push([col, row, 'across', word]);
   return { direction: 'across', anchor: this.numberTransform(clueNum) };
