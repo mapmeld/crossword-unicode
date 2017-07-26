@@ -68,8 +68,14 @@ var game = new Crossword(canv, width, height);
 game.clearCanvas(true);
 
 game.addWord(answer, function(err, clueAnchor, direction) {
-  //
+  // err = null
+  // clueAnchor = 2
+  // direction = 'down' or 'across'
 });
+
+// right-to-left scripts (Arabic, Hebrew, Divehi)
+// in these cases down = top->down, across = right->left
+game.setDirection('rtl');
 ```
 
 ### Command Line
@@ -83,9 +89,9 @@ Prerequisites: NodeJS and fonts which support your language (preferably Noto San
 npm install crossword -g
 crosswordjs wordlist.txt output.png
 
-# more custom setup
+# command-line setup
 # 20 columns wide, 15 rows high
-# myanmar (other languages supported: ne Nepali, ta Tamil)
+# Myanmar numerals (other numerals supported: ne Nepali / Devanagari, ta Tamil, ar Arabic (also changes direction))
 xwordjs wordlist.txt output.png -w 20 -h 15 -l my
 ```
 

@@ -4,6 +4,9 @@
 
 // magic RegEx to split strings into letters
 var accents_and_vowels = "[:\u0300-\u036F" + // Combining Diacritical Marks
+"\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7" + // Hebrew
+"\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED" + // Arabic
+"\u07A6-\u07B0" + // Thaana
 "\u0900-\u0903\u093A-\u094C\u094E\u094F\u0951-\u0957\u0962\u0963" + // Devanagari
 "\u0981-\u0983\u09BC\u09BE-\u09CC\u09D7\u09E2\u09E3" + // Bengali
 "\u0A01-\u0A03\u0A3C-\u0A4C\u0A51" + // Gurmukhi
@@ -146,15 +149,13 @@ Crossword.prototype.startDownIn = function(word, row, col) {
   this.grid[col][row].label = clueNum;
   this.drawGrid(col, row);
 
-  // add an 'end' mark so no one puts a square underneath it
-  this.grid[col][row * 1 + word.length - 1].end = true;
-
   this.previousWords.push([col, row, 'down', word]);
   return { direction: 'down', anchor: this.numberTransform(clueNum) };
 };
 
-Crossword.prototype.startAcrossIn = function(word, row, col) {
+Crossword.prototype.startAcrossIn = function(originWord, row, col) {
   var forceLabel = null;
+  var word = (this.direction === 'rtl' ? originWord.concat([]).reverse() : originWord);
   if (col * 1 + word.length > this.width) {
     // word is too long
     return false;
@@ -167,7 +168,13 @@ Crossword.prototype.startAcrossIn = function(word, row, col) {
     // letter right of ends
     return false;
   }
-  if (this.grid[col][row] && this.grid[col][row].label) {
+
+  // reuse label of previous word?
+  if (this.direction === 'rtl') {
+    if (this.grid[col * 1 + word.length - 1][row] && this.grid[col * 1 + word.length - 1][row].label) {
+      forceLabel = this.grid[col * 1 + word.length - 1][row].label;
+    }
+  } else if (this.grid[col][row] && this.grid[col][row].label) {
     // another starts here - that's OK but we reuse the label
     forceLabel = this.grid[col][row].label;
   }
@@ -197,18 +204,31 @@ Crossword.prototype.startAcrossIn = function(word, row, col) {
 
   // first square gets a number
   var clueNum = forceLabel || (this.anchor++);
-  this.grid[col][row].label = clueNum;
+  if (this.direction === 'rtl') {
+    this.grid[col * 1 + word.length - 1][row].label = clueNum;
+  } else {
+    this.grid[col][row].label = clueNum;
+  }
   this.drawGrid(col, row);
-
-  // add an 'end' mark so no one puts a square right of it
-  this.grid[col * 1 + word.length - 1][row].end = true;
 
   this.previousWords.push([col, row, 'across', word]);
   return { direction: 'across', anchor: this.numberTransform(clueNum) };
 };
 
+Crossword.prototype.setDirection = function(direction) {
+  if (direction === 'ltr' || direction === 'rtl') {
+    this.direction = direction;
+  } else {
+    throw 'did not understand direction - use ltr or rtl';
+  }
+};
+
 Crossword.prototype.addWord = function(answer, callback) {
   var word = [];
+
+  // common ligature in Arabic script
+  answer = answer.replace(/لا/g, 'ﻻ');
+
   while (answer.length) {
     var block = (new RegExp(blockFinder)).exec(answer)[0];
     word.push(block);

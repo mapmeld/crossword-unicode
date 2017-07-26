@@ -13,7 +13,7 @@ program
   .arguments('<wordList> <saveImage>')
   .option('-w --width <number>', 'columns of crossword', /(\d+)/, 20)
   .option('-h --height <number>', 'rows of crossword', /(\d+)/, 15)
-  .option('-l --language <code>', 'en,my,ne,ta', /(.*)/, 'en')
+  .option('-l --language <code>', 'en,my,ne,ta,ar,ps,dv', /(.*)/, 'en')
   .parse(process.argv);
 
 if (!program.args.length) {
@@ -96,6 +96,32 @@ fs.readFile(sourceFile, { encoding: 'utf-8' }, function (err, srcText) {
       }
       return txt;
     });
+  } else if (program.language === 'ar' || program.language === 'ps') {
+    game.setNumberTransform(function(txt) {
+      txt += '';
+      var numbers = {
+        '٠': 0,
+        '١': 1,
+        '٢': 2,
+        '٣': 3,
+        '٤': 4,
+        '٥': 5,
+        '٦': 6,
+        '٧': 7,
+        '٨': 8,
+        '٩': 9
+      };
+
+      var keys = Object.keys(numbers);
+      for (var n = 0; n <= keys.length; n++) {
+        var re = new RegExp(numbers[keys[n]] + "", "g");
+        txt = txt.replace(re, keys[n]);
+      }
+      return txt;
+    });
+    game.setDirection('rtl');
+  } else if (program.language === 'dv') {
+    game.setDirection('rtl');
   }
 
   function addClue(i) {
