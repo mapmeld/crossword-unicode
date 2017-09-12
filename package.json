@@ -11,7 +11,7 @@
   "dependencies": {
     "canvas": "^1.3.7",
     "commander": "^2.9.0",
-    "myanmar-numbers": "^1.1.3"
+    "myanmar-numbers": "^2.1.3"
   },
   "repository": {
     "type": "git",
