@@ -1,5 +1,7 @@
 # Crossword
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mapmeld/crossword-unicode.svg)](https://greenkeeper.io/)
+
 Make crossword puzzles in multiple languages and scripts.
 
 <strong><a href="http://mapmeld.github.io/crossword-unicode/">Burmese/Myanmar Version</a></strong> supporting Unicode and
